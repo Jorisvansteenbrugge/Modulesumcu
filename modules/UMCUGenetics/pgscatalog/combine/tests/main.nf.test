@@ -1,0 +1,27 @@
+nextflow_process {
+    name "Test Process PGScatalog-combine"
+    script "../main.nf"
+    process "PGSCATALOG_COMBINE"
+
+    tag "modules/local"
+
+
+    test("Test Correct model formatting "){
+        when{
+            process{
+                """
+                input[0] = [[id: 'model'],
+                    file("${projectDir}/assets/models/BCAC_313_PRS_GRCh38.txt",
+                    checkifExists: true)]
+                input[1] = channel.value("GRCh38")
+                """
+            }
+
+            then {
+                assertAll(
+                    {assert process.success},
+                )
+            }
+        }
+    }
+}

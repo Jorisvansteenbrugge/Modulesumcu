@@ -1,0 +1,60 @@
+nextflow_process {
+    name "Test Process pgscatalog/match"
+    script "../main.nf"
+    process "PGSCATALOG_MATCH"
+
+
+
+    tag "modules"
+    tag "pgscatalog"
+    tag "pgscatalog/match"
+
+    test("Test SNV ambiguity detection"){
+        setup{
+            run("PLINK2_VCF") {
+                script "../../../../nf-core/plink2/vcf/main.nf"
+
+                process{
+                    """
+                        input[0] = [[id: "vcf"], file("${projectDir}/assets/test-data/test.vcf",checkIfExists: true)]
+                    """
+                }
+            }
+        }
+
+        when {
+            process {
+                """
+                input[0] = [[id: "model"],
+                        file(
+                            "${projectDir}/assets/test-data/norm_test_model_subworkflow.txt.gz",
+                            checkIfExists: true)]
+                    input[1] = PLINK2_VCF.out.pvar_zst
+
+                """
+            }
+        }
+        then {
+            // Analysing the csv is necessary as the snapshots do not always match
+            // (row order differs)
+            def csv = path(process.out.summary[0][1]).csv().table
+            def matched = csv.stringColumn("match_status").isEqualTo("matched")
+
+            def n_ambiguous_SNV = csv.where(
+                csv.booleanColumn("ambiguous").isTrue().and(matched)
+            ).row(0).getInt("count")
+
+            def n_unambiguous_SNV = csv.where(
+                csv.booleanColumn("ambiguous").isFalse().and(matched)
+            ).row(0).getInt("count")
+
+            assertAll (
+                {assert process.success},
+                {assert n_ambiguous_SNV == 1},
+                {assert n_unambiguous_SNV == 3}
+            )
+        }
+
+
+    }
+}
