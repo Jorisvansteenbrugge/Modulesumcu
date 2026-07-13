@@ -39,7 +39,11 @@ nextflow_process {
                 { assert path(process.out.knn_pca_plot[0][1]).size() > 0 },
                 { assert process.out.knn_pca_plot[0][1].endsWith(".png") },
 
-                { assert snapshot(process.out.knn_tsv).match('predictions') }
+                { assert snapshot(
+                    process.out.knn_tsv,
+                    process.out.findAll { key, val -> key.startsWith('versions') }
+                    ).match()
+                 }
             )
         }
     }

@@ -7,7 +7,7 @@ process ANCESTRY_KNN_MERGE {
 
     output:
     path("ancestry_knn_mqc.tsv"), emit: knn_mqc_tsv
-    tuple val("${task.process}"), val('ancestry_knn'), eval('1.0.0'), emit: versions_ancestry_knn, topic: versions
+    tuple val("${task.process}"), val('ancestry_knn'), eval('echo 1.0.0'), emit: versions_ancestry_knn, topic: versions
 
     script:
     """

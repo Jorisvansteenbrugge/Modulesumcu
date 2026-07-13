@@ -24,7 +24,10 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out.knn_mqc_tsv).match('merge') }
+                { assert snapshot(
+                    process.out.knn_mqc_tsv,
+                    process.out.findAll { key, val -> key.startsWith('versions') }
+                ).match() }
             )
         }
     }
