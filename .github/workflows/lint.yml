@@ -1,7 +1,7 @@
 name: Run Linting
 on:
   pull_request:
-    branches: [main, develop, release/*]
+    branches: [main, develop, release/*, feature/*]
 
 # Cancel if a newer run is started
 concurrency:
