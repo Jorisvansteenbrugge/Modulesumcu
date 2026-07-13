@@ -1,0 +1,19 @@
+{
+    "predictions": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "eigenvec"
+                    },
+                    "eigenvec_knn.tsv:md5,bab411a7128384b8a5db6729cf144888"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-13T12:01:49.262789"
+    }
+}
