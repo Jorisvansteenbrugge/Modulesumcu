@@ -1,0 +1,14 @@
+{
+    "merge": {
+        "content": [
+            [
+                "ancestry_knn_mqc.tsv:md5,d79057c19aada0ce7f002428174f16d9"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-13T13:08:07.232937"
+    }
+}
