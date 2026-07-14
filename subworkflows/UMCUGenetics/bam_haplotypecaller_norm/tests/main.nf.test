@@ -10,6 +10,10 @@ nextflow_workflow {
     tag "subworkflows/variant_calling"
     tag "variant_calling"
     tag "local"
+    tag "gatk4/haplotypecaller_alleles"
+    tag "subworkflows_UMCUGenetics"
+    tag "subworkflows/bam_haplotypecaller_norm"
+    tag "bcftools/norm"
 
     setup{
         nfcoreInitialise("${launchDir}/library/")
