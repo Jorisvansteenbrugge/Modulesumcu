@@ -1,0 +1,75 @@
+nextflow_workflow {
+    name "Test Subworkflow Variant calling"
+    script "../main.nf"
+    config "./nextflow.config"
+
+    workflow "BAM_HAPLOTYPECALLER_NORM"
+
+    tag "subworkflows"
+    tag "subworkflows/local"
+    tag "subworkflows/variant_calling"
+    tag "variant_calling"
+    tag "local"
+
+    setup{
+        nfcoreInitialise("${launchDir}/library/")
+        nfcoreInstall(
+            "${launchDir}/library/",
+            [
+                "bcftools/norm"
+            ]
+        )
+        nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
+    }
+    test("Validate Variant calling subworkflow") {
+        options "-stub"
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [id: "sample1"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam",
+                        checkIfExists: true),
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam.bai",
+                    checkIfExists: true)
+            ])
+                input[1] = Channel.of([[id: "genome_fa"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/genome/genome.fasta", checkIfExists: true)]).first()
+                input[2] = Channel.of([[id: "genome_fai"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/genome/genome.fasta.fai", checkIfExists: true)]).first()
+                input[3] = Channel.of([[id: "genome_dict"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/genome/genome.dict", checkIfExists: true)]).first()
+                input[4] = Channel.of([[id: "dbsnp"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/genome/vcf/dbsnp_146.hg38.vcf.gz",checkIfExists: true)]).first()
+                input[5] = Channel.of([[id: "dbsnp"],
+                    file("https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/homo_sapiens/genome/vcf/dbsnp_146.hg38.vcf.gz.tbi",checkIfExists: true)]).first()
+                input[6] = Channel.of(
+                        [ [id: "modelA"],
+                        file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_snplist.list", checkIfExists: true)],
+
+                        [[id: "modelB"],
+                        file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_snplist.list", checkIfExists: true)]
+                )
+                input[7] = Channel.of(
+                    [[id: "modelA"],
+                        file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_genotypes_sorted.vcf.gz", checkIfExists: true),
+                        file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_genotypes_sorted.vcf.gz.tbi", checkIfExists: true)
+                    ],
+                    [[id: "modelB"],
+                        file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_genotypes_sorted.vcf.gz", checkIfExists: true),
+                    file(params.subworkflows_umcu_testdata_base_path + "bam_haplotypecaller_norm/BCAC_313_PRS_GRCh38_genotypes_sorted.vcf.gz.tbi", checkIfExists: true)
+                    ]
+
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success }
+            )
+        }
+    }
+}
