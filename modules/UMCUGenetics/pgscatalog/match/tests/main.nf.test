@@ -11,6 +11,14 @@ nextflow_process {
 
     test("Test SNV ambiguity detection"){
         setup{
+            nfcoreInitialise("${launchDir}/library/")
+            nfcoreInstall(
+                "${launchDir}/library/",
+                [
+                    "plink2/vcf"
+                ]
+            )
+        nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
             run("PLINK2_VCF") {
                 script "../../../../nf-core/plink2/vcf/main.nf"
 
@@ -26,8 +34,8 @@ nextflow_process {
             process {
                 """
                 input[0] = [[id: "model"],
-                        file(
-                            "${projectDir}/assets/test-data/norm_test_model_subworkflow.txt.gz",
+                        file(params.modules_umcu_testdata_base_path +
+                            "pgscatalog/norm_test_model_subworkflow.txt.gz",
                             checkIfExists: true)]
                     input[1] = PLINK2_VCF.out.pvar_zst
 
