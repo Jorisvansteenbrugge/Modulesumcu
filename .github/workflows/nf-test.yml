@@ -1,7 +1,7 @@
 name: Run nf-test
 on:
   pull_request:
-    branches: [main, develop, release/*]
+    branches: [main, develop, release/*, feature/*]
     paths-ignore:
       - "**/meta.yml"
   workflow_dispatch:
