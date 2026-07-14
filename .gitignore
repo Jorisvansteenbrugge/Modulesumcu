@@ -13,3 +13,5 @@ null/
 .nf-test/
 .nf-test/*
 .nf-test*
+
+modules/nf-core/
