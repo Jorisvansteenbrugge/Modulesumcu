@@ -1,0 +1,19 @@
+{
+    "Validate ancestry subworkflow": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_knn.tsv:md5,b09f40ffcad061623b6279ce4b2b7949"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-03-09T13:18:57.69625"
+    }
+}
