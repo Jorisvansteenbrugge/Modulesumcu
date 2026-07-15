@@ -1,6 +1,7 @@
 nextflow_process {
     name "Test Process pgscatalog/match"
     script "../main.nf"
+    config "./nextflow.config"
     process "PGSCATALOG_MATCH"
 
 
@@ -11,20 +12,14 @@ nextflow_process {
 
     test("Test SNV ambiguity detection"){
         setup{
-            nfcoreInitialise("${launchDir}/library/")
-            nfcoreInstall(
-                "${launchDir}/library/",
-                [
-                    "plink2/vcf"
-                ]
-            )
-        nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
             run("PLINK2_VCF") {
-                script "../../../../nf-core/plink2/vcf/main.nf"
+                script "../../../../UMCUGenetics/plink2/vcf_expanded/main.nf"
 
                 process{
                     """
-                        input[0] = [[id: "vcf"], file(params.modules_umcu_testdata_base_path + "pgscatalog/test.vcf",checkIfExists: true)]
+                    input[0] = [
+                        [id: "vcf", model_id: "model", mu: "-0.424", sd: "0.611"],
+                        file(params.modules_umcu_testdata_base_path + "pgscatalog/test.vcf",checkIfExists: true)]
                     """
                 }
             }
@@ -33,11 +28,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [[id: "model"],
-                        file(params.modules_umcu_testdata_base_path +
+                input[0] = PLINK2_VCF.out.pvar_zst
+                input[1] = [
+                    [id: "vcf", model_id: "model", mu: "-0.424", sd: "0.611"],
+                    file(params.modules_umcu_testdata_base_path +
                             "pgscatalog/norm_test_model_subworkflow.txt.gz",
-                            checkIfExists: true)]
-                    input[1] = PLINK2_VCF.out.pvar_zst
+                        checkIfExists: true)]
+
 
                 """
             }
