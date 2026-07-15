@@ -1,0 +1,35 @@
+{
+    "Validate PRS interval creation": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "BCAC_313_PRS_GRCh38"
+                    },
+                    "BCAC_313_PRS_GRCh38_sort.vcf.gz:md5,f624f9f4dcf468f46e5c9c1db94422e0"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "BCAC_313_PRS_GRCh38"
+                    },
+                    "BCAC_313_PRS_GRCh38_snplist.list:md5,3e21c088d2044dcf23e4f300fa7e5e72"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "BCAC_313_PRS_GRCh38"
+                    },
+                    "BCAC_313_PRS_GRCh38_normalised.txt.gz:md5,812b8de38eb272e9f5063ef3f34e9e99"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-15T11:46:31.853606"
+    }
+}

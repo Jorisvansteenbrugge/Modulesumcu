@@ -3,7 +3,8 @@ nextflow_process {
     script "../main.nf"
     process "PGSCATALOG_COMBINE"
 
-    tag "modules/local"
+    tag "modules"
+    tag "modules/UMCUGenetics"
 
 
     test("Test Correct model formatting "){
@@ -11,7 +12,7 @@ nextflow_process {
             process{
                 """
                 input[0] = [[id: 'model'],
-                    file(params.modules_umcu_testdata_base_path +"pgscatalog/BCAC_313_PRS_GRCh38.txt",
+                    file(params.modules_umcu_testdata_base_path + "pgscatalog/BCAC_313_PRS_GRCh38.txt",
                     checkifExists: true)]
                 input[1] = channel.value("GRCh38")
                 """
