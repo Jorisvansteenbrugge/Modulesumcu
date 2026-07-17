@@ -8,12 +8,21 @@
                     },
                     "BCAC_313_snplist.list:md5,3e21c088d2044dcf23e4f300fa7e5e72"
                 ]
-            ]
+            ],
+            {
+                "versions_SNPlist": [
+                    [
+                        "GET_SNPLIST",
+                        "SNPlist",
+                        "1.0.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.4"
         },
-        "timestamp": "2026-07-15T10:52:18.755018"
+        "timestamp": "2026-07-17T10:48:49.757518"
     }
 }

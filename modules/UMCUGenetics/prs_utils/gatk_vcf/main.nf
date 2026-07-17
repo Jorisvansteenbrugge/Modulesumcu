@@ -9,6 +9,7 @@ process GET_VCF {
 
     output:
     tuple val(meta), path("*_genotypes.vcf"), emit: vcf
+    tuple val("${task.process}"), val('gatk_vcf'), eval('echo 1.0.0'), emit: versions_gatk_vcf, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id

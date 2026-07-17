@@ -24,7 +24,10 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out.list).match() }
+                { assert snapshot(
+                    process.out.list,
+                    process.out.findAll { key, val -> key.startsWith('versions') }
+                  ).match() }
             )
         }
     }

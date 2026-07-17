@@ -5,7 +5,17 @@ nextflow_workflow {
     workflow "ANCESTRY"
 
     tag "subworkflows"
-    tag "subworkflows/local"
+    tag "ancestry_knn/merge"
+    tag "plink2/extract_fix"
+    tag "subworkflows_UMCUGenetics"
+    tag "subworkflows/vcf_ancestry"
+    tag "subworkflows/../../modules/nf-core/bcftools/view"
+    tag "subworkflows/../../modules/nf-core/plink2/pca"
+    tag "subworkflows/../../modules/nf-core/bcftools/merge"
+    tag "subworkflows/../../modules/nf-core/plink2/indeppairwise"
+    tag "plink2/vcf_expanded"
+    tag "ancestry_knn/calc"
+
     tag "ancestry"
     tag "local"
 

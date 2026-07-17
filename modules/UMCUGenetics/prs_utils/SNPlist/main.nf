@@ -8,6 +8,7 @@ process GET_SNPLIST {
 
     output:
     tuple val(meta), path("*_snplist.list"), emit: list
+    tuple val("${task.process}"), val('SNPlist'), eval('echo 1.0.0'), emit: versions_SNPlist, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id
@@ -17,7 +18,7 @@ process GET_SNPLIST {
         --scoring_file ${scoring_file} \\
         --prefix ${prefix} \\
         ${args}
-    
+
     export prefix=${prefix}
     """
 
