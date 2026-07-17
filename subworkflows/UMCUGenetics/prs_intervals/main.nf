@@ -1,7 +1,7 @@
-include { BCFTOOLS_SORT      } from "../../../modules/nf-core/bcftools/sort/main"
-include { GET_SNPLIST        } from "../../../modules/UMCUGenetics/prs_utils/snplist/main"
-include { GET_VCF            } from "../../../modules/UMCUGenetics/prs_utils/gatk_vcf/main"
-include { PGSCATALOG_COMBINE } from "../../../modules/UMCUGenetics/pgscatalog/combine/main"
+include { BCFTOOLS_SORT      } from '../../../modules/nf-core/bcftools/sort/main'
+include { GET_SNPLIST        } from '../../../modules/UMCUGenetics/prs_utils/snplist/main'
+include { GET_VCF            } from '../../../modules/UMCUGenetics/prs_utils/gatk_vcf/main'
+include { PGSCATALOG_COMBINE } from '../../../modules/UMCUGenetics/pgscatalog/combine/main'
 
 
 workflow PRS_INTERVALS {

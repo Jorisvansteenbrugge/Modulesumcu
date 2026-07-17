@@ -9,7 +9,7 @@ nextflow_workflow {
     tag "subworkflows/prs_intervals"
     tag "prs_intervals"
     tag "pgscatalog/combine"
-    tag "../../../modules/nf-core/bcftools/sort"
+    tag "subworkflows/../../modules/nf-core/bcftools/sort"
     tag "prs_utils/snplist"
     tag "prs_utils/gatk_vcf"
 
