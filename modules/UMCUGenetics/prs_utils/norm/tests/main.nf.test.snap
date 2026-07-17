@@ -10,12 +10,21 @@
                     },
                     "test_panel_normalised_counts.tsv:md5,a6e8cd0360761425f2bfe13ebf369c63"
                 ]
-            ]
+            ],
+            {
+                "versions_prs_utils_norm": [
+                    [
+                        "PRS_UTILS_NORM",
+                        "prs_utils_norm",
+                        "1.0.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.4"
         },
-        "timestamp": "2026-04-28T14:47:31.614971"
+        "timestamp": "2026-07-17T13:45:51.048398"
     }
 }
