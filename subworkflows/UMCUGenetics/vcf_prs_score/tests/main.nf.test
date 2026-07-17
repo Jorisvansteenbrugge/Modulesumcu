@@ -1,0 +1,51 @@
+nextflow_workflow {
+    name "Test Subworkflow PRS score calculation"
+    script "../main.nf"
+    config "./nextflow.config"
+    workflow "VCF_PRS_SCORE"
+
+
+
+    tag "subworkflows"
+    tag "subworkflows/local"
+    tag "subworkflows/VCF_PRS_SCORE"
+    tag "VCF_PRS_SCORE"
+
+    test("Validate scoring workflow"){
+
+
+
+        when {
+            workflow {
+            """
+                input[0] = Channel.of([
+                    [id: "vcf", model_id: "model", mu: "-0.424", sd: "0.611"],
+                    file(params.subworkflows_umcu_testdata_base_path + "vcf_prs_score/test.vcf", checkIfExists: true)
+                ])
+                input[1] = Channel.of([
+                    [id: "model"],
+                    file(params.subworkflows_umcu_testdata_base_path + "vcf_prs_score/norm_test_model_subworkflow.txt.gz", checkIfExists: true)
+                ])
+            """
+            }
+        }
+        then {
+            def csv = path(workflow.out.ch_score_summary[0][1]).csv().table
+            def n_ambiguous_SNV = csv.where(
+                csv.booleanColumn("ambiguous").isTrue()
+                    .and(csv.stringColumn("match_status").isEqualTo("matched"))
+            ).row(0).getInt("count")
+            def n_unambiguous_SNV = csv.where(
+                csv.booleanColumn("ambiguous").isFalse()
+                    .and(csv.stringColumn("match_status").isEqualTo("matched"))
+            ).row(0).getInt("count")
+
+            assertAll (
+                {assert workflow.success},
+                {assert snapshot(workflow.out.ch_score_norm[0]).match()},
+                {assert n_ambiguous_SNV == 1},
+                {assert n_unambiguous_SNV == 3}
+            )
+        }
+    }
+}

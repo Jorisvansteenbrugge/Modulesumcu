@@ -1,0 +1,49 @@
+{
+    "plink2_score": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.sscore:md5,f8d2d19abe47bc49661fe7d845620eec"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,17edce645e4ecc0bcde1d7bca0bdb637"
+                ],
+                "score": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.sscore:md5,f8d2d19abe47bc49661fe7d845620eec"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,17edce645e4ecc0bcde1d7bca0bdb637"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-17T13:39:37.828014"
+    },
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,17edce645e4ecc0bcde1d7bca0bdb637"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-17T13:39:37.797118"
+    }
+}

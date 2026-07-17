@@ -1,0 +1,21 @@
+{
+    "Test two sample PGS normalisation": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_panel",
+                        "mu": "-0.424",
+                        "sd": "0.611"
+                    },
+                    "test_panel_normalised_counts.tsv:md5,a6e8cd0360761425f2bfe13ebf369c63"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-28T14:47:31.614971"
+    }
+}
