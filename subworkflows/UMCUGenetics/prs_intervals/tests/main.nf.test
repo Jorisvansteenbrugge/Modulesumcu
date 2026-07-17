@@ -8,10 +8,9 @@ nextflow_workflow {
     tag "subworkflows_UMCUGenetics"
     tag "subworkflows/prs_intervals"
     tag "prs_intervals"
-
     tag "pgscatalog/combine"
     tag "../../../modules/nf-core/bcftools/sort"
-    tag "prs_utils/SNPlist"
+    tag "prs_utils/snplist"
     tag "prs_utils/gatk_vcf"
 
     setup{
