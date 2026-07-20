@@ -1,0 +1,31 @@
+nextflow_process {
+    name "Test merge_prs_mqc"
+    script "../main.nf"
+    process "MERGE_PRS_MQC"
+
+    tag "modules/UMCUGenetics"
+    tag "modules"
+    tag "QC"
+
+    test("Test merging PRS result files"){
+        when {
+            process {
+                """
+                input[0] = [
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/merge_prs_mqc/sampleA.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/merge_prs_mqc/sampleB.tsv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.mqc_tsv)
+            with(path(process.out.mqc_tsv[0]).csv(sep: "\t")) {
+                assert rowCount == 2
+                assert columnNames == ["Sample_Model", "Sample", "Model", "Z-score", "QC Status", "QC Comment", "Model Alpha"]
+            }
+
+        }
+    }
+}

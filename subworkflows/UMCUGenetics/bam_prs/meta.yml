@@ -1,0 +1,4 @@
+name: "bam_prs"
+description: "Main PRS (meta) workflow"
+keywords:
+  - prs
