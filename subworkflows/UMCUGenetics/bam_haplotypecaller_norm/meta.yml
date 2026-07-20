@@ -7,6 +7,6 @@ keywords:
   - bcftools
   - bam
 components:
-  - gatk4/haplotypecaller
+  - gatk4/haplotypecaller_alleles
   - bcftools/norm:
       git_remote: https://github.com/nf-core/modules.git

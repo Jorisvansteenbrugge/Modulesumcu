@@ -9,3 +9,7 @@ components:
       git_remote: https://github.com/nf-core/modules.git
   - plink2/pca:
       git_remote: https://github.com/nf-core/modules.git
+  - ancestry_knn/calc
+  - ancestry_knn/merge
+  - plink2/extract_fix
+  - plink2/vcf_expanded

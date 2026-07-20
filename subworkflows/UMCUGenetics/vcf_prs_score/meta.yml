@@ -1,0 +1,9 @@
+name "vcf_prs_score"
+description: "PRS scoring based on a VCF input"
+keywords:
+  - prs
+components:
+  - pgscatalog/match
+  - prs_utils/norm
+  - plink2/score_expanded
+  - plink2/vcf_expanded
