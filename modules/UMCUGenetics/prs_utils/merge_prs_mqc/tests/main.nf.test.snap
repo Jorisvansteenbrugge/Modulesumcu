@@ -1,0 +1,14 @@
+{
+    "Test merging PRS result files": {
+        "content": [
+            [
+                "prs_scores_mqc.tsv:md5,ebcda47862ca9c941117357edb6ccd65"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-20T11:28:38.318949"
+    }
+}
