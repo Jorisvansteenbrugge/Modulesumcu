@@ -1,0 +1,37 @@
+nextflow_process {
+
+    name "Test Process PRSUTILS_NORM"
+    script "../main.nf"
+    process "PRSUTILS_NORM"
+
+
+    tag "modules"
+    tag "modules/local"
+    tag "local"
+    tag "normalisation"
+    tag "modules/PRSUTILS_NORM"
+
+    test("Test two sample PGS normalisation") {
+
+        when{
+            process {
+                """
+                input[0] = [
+                [id: "test_panel", mu: "-0.424", sd: "0.611"],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/raw_PGS.sscores", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.tsv,
+                    process.out.findAll { key, val -> key.startsWith('versions') }
+                ).match() }
+            )
+        }
+    }
+
+}

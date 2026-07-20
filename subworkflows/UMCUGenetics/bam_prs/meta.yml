@@ -7,5 +7,5 @@ components:
   - vcf_prs_score
   - prs_intervals
   - bam_haplotypecaller_norm
-  - prs_utils/sampleqc
-  - prs_utils/merge_prs_mqc
+  - prsutils/sampleqc
+  - prsutils/mergeprsmqc

@@ -12,8 +12,8 @@ nextflow_process {
 
     test("Test SNV ambiguity detection"){
         setup{
-            run("PLINK2_VCF") {
-                script "../../../../UMCUGenetics/plink2/vcf_expanded/main.nf"
+            run("PLINK2_VCFEXPANDED") {
+                script "../../../../UMCUGenetics/plink2/vcfexpanded/main.nf"
 
                 process{
                     """
@@ -28,7 +28,7 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = PLINK2_VCF.out.pvar_zst
+                input[0] = PLINK2_VCFEXPANDED.out.pvar_zst
                 input[1] = [
                     [id: "vcf", model_id: "model", mu: "-0.424", sd: "0.611"],
                     file(params.modules_umcu_testdata_base_path +

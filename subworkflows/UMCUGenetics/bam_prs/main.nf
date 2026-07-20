@@ -8,8 +8,8 @@ include { VCF_PRS_SCORE            } from '../../../subworkflows/UMCUGenetics/vc
 include { PRS_INTERVALS            } from '../../../subworkflows/UMCUGenetics/prs_intervals/main'
 include { BAM_HAPLOTYPECALLER_NORM } from '../../../subworkflows/UMCUGenetics/bam_haplotypecaller_norm/main'
 
-include { SAMPLE_QC                } from '../../../modules/UMCUGenetics/prs_utils/sampleqc/main'
-include { MERGE_PRS_MQC            } from '../../../modules/UMCUGenetics/prs_utils/merge_prs_mqc/main'
+include { PRSUTILS_SAMPLEQC                } from '../../../modules/UMCUGenetics/prsutils/sampleqc/main'
+include { PRSUTILS_MERGEPRSMQC            } from '../../../modules/UMCUGenetics/prsutils/mergeprsmqc/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +104,7 @@ workflow BAM_PRS {
 
 
     // QC step — combined meta carries (sample_id, model_id); ancestry is per-sample only.
-    SAMPLE_QC(
+    PRSUTILS_SAMPLEQC(
         VCF_PRS_SCORE.out.ch_score_norm
             .join(VCF_PRS_SCORE.out.ch_score_summary)
             .map { meta, scores, summary -> [meta.sample_id, meta, scores, summary] }
@@ -116,13 +116,13 @@ workflow BAM_PRS {
     )
 
 
-    MERGE_PRS_MQC(
-        SAMPLE_QC.out.score_qc.map{ _meta, tsv -> tsv }.collect()
+    PRSUTILS_MERGEPRSMQC(
+        PRSUTILS_SAMPLEQC.out.score_qc.map{ _meta, tsv -> tsv }.collect()
     )
 
 
     emit:
-    PRS_mqc  = MERGE_PRS_MQC.out.mqc_tsv
+    PRS_mqc  = PRSUTILS_MERGEPRSMQC.out.mqc_tsv
 
 }
 

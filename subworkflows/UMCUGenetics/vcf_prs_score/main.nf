@@ -1,7 +1,7 @@
 include { PGSCATALOG_MATCH } from '../../../modules/UMCUGenetics/pgscatalog/match/main'
-include { PRS_UTILS_NORM   } from '../../../modules/UMCUGenetics/prs_utils/norm/main'
-include { PLINK2_SCORE     } from '../../../modules/UMCUGenetics/plink2/score_expanded/main'
-include { PLINK2_VCF       } from '../../../modules/UMCUGenetics/plink2/vcf_expanded/main'
+include { PRSUTILS_NORM   } from '../../../modules/UMCUGenetics/prsutils/norm/main'
+include { PLINK2_SCOREEXPANDED     } from '../../../modules/UMCUGenetics/plink2/scoreexpanded/main'
+include { PLINK2_VCFEXPANDED       } from '../../../modules/UMCUGenetics/plink2/vcfexpanded/main'
 
 workflow VCF_PRS_SCORE {
     take:
@@ -10,12 +10,12 @@ workflow VCF_PRS_SCORE {
 
     main:
 
-    PLINK2_VCF(
+    PLINK2_VCFEXPANDED(
         ch_vcf
     )
 
     // Pair each (sample, model) pvar with the matching model's normalised scorefile by model_id.
-    ch_match_input = PLINK2_VCF.out.pvar_zst
+    ch_match_input = PLINK2_VCFEXPANDED.out.pvar_zst
         .map { meta, pvar -> [meta.model_id, meta, pvar] }
         .combine(
             ch_normalised_model.map { meta, model -> [meta.id, model] },
@@ -32,28 +32,28 @@ workflow VCF_PRS_SCORE {
     )
 
 
-    PLINK2_SCORE(
-        PLINK2_VCF.out.pgen
-            .join(PLINK2_VCF.out.psam)
-            .join(PLINK2_VCF.out.pvar)
-            .join(PLINK2_VCF.out.afreq)
+    PLINK2_SCOREEXPANDED(
+        PLINK2_VCFEXPANDED.out.pgen
+            .join(PLINK2_VCFEXPANDED.out.psam)
+            .join(PLINK2_VCFEXPANDED.out.pvar)
+            .join(PLINK2_VCFEXPANDED.out.afreq)
             .join(PGSCATALOG_MATCH.out.scorefile)
     )
 
-    PRS_UTILS_NORM(
-        PLINK2_SCORE.out.score
+    PRSUTILS_NORM(
+        PLINK2_SCOREEXPANDED.out.score
     )
 
 
     emit:
-    ch_score_norm     = PRS_UTILS_NORM.out.tsv
+    ch_score_norm     = PRSUTILS_NORM.out.tsv
     ch_score_variants = PGSCATALOG_MATCH.out.log
     ch_score          = PGSCATALOG_MATCH.out.scorefile
     ch_score_summary  = PGSCATALOG_MATCH.out.summary
-    ch_pgen           = PLINK2_VCF.out.pgen
-    ch_psam           = PLINK2_VCF.out.psam
-    ch_pvar           = PLINK2_VCF.out.pvar_zst
-    ch_vmiss_gz       = PLINK2_VCF.out.vmiss_gz
-    ch_afreq_gz       = PLINK2_VCF.out.afreq_gz
+    ch_pgen           = PLINK2_VCFEXPANDED.out.pgen
+    ch_psam           = PLINK2_VCFEXPANDED.out.psam
+    ch_pvar           = PLINK2_VCFEXPANDED.out.pvar_zst
+    ch_vmiss_gz       = PLINK2_VCFEXPANDED.out.vmiss_gz
+    ch_afreq_gz       = PLINK2_VCFEXPANDED.out.afreq_gz
 
 }

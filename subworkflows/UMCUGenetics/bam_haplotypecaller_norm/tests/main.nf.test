@@ -10,7 +10,7 @@ nextflow_workflow {
     tag "subworkflows_UMCUGenetics"
     tag "subworkflows/bam_haplotypecaller_norm"
     tag "local"
-    tag "gatk4/haplotypecaller_alleles"
+    tag "gatk4/haplotypecalleralleles"
     tag "subworkflows/../../modules/nf-core/bcftools/norm"
 
 

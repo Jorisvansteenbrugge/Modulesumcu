@@ -1,4 +1,4 @@
-include { GATK4_HAPLOTYPECALLER } from '../../../modules/UMCUGenetics/gatk4/haplotypecaller_alleles/main'
+include { GATK4_HAPLOTYPECALLERALLELES } from '../../../modules/UMCUGenetics/gatk4/haplotypecalleralleles/main'
 include { BCFTOOLS_NORM         } from '../../../modules/nf-core/bcftools/norm/main'
 
 workflow BAM_HAPLOTYPECALLER_NORM {
@@ -32,7 +32,7 @@ workflow BAM_HAPLOTYPECALLER_NORM {
             alleles: [[id: meta.id], vcf, tbi]
         }
 
-    GATK4_HAPLOTYPECALLER(
+    GATK4_HAPLOTYPECALLERALLELES(
         ch_hc.input,
         ch_genome_fasta,
         ch_genome_index,
@@ -43,14 +43,14 @@ workflow BAM_HAPLOTYPECALLER_NORM {
     )
 
     BCFTOOLS_NORM(
-        GATK4_HAPLOTYPECALLER.out.vcf
-            .join(GATK4_HAPLOTYPECALLER.out.tbi),
+        GATK4_HAPLOTYPECALLERALLELES.out.vcf
+            .join(GATK4_HAPLOTYPECALLERALLELES.out.tbi),
         ch_genome_fasta
     )
 
     // Collate software versions
     ch_versions = Channel.empty()
-    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
+    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLERALLELES.out.versions)
 
     emit:
     vcf         = BCFTOOLS_NORM.out.vcf

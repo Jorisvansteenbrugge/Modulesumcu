@@ -10,12 +10,12 @@ nextflow_workflow {
     tag "subworkflows/local"
     tag "subworkflows/VCF_PRS_SCORE"
     tag "VCF_PRS_SCORE"
-    tag "plink2/vcf_expanded"
+    tag "plink2/vcfexpanded"
     tag "pgscatalog/match"
-    tag "plink2/score_expanded"
+    tag "plink2/scoreexpanded"
     tag "subworkflows_UMCUGenetics"
     tag "subworkflows/vcf_prs_score"
-    tag "prs_utils/norm"
+    tag "prsutils/norm"
 
     test("Validate scoring workflow"){
 

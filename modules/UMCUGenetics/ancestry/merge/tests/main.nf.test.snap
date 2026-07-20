@@ -1,0 +1,23 @@
+{
+    "Test ancestry KNN merging": {
+        "content": [
+            [
+                "ancestry_knn_mqc.tsv:md5,d79057c19aada0ce7f002428174f16d9"
+            ],
+            {
+                "versions_ancestry_knn": [
+                    [
+                        "ANCESTRY_MERGE",
+                        "ancestry_knn",
+                        "1.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-20T16:38:34.579378"
+    }
+}
