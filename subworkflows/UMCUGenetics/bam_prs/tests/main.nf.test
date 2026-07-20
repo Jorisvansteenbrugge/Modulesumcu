@@ -9,6 +9,10 @@ nextflow_workflow {
     tag "subworkflows/bam_prs"
     tag "prs_utils/sampleqc"
     tag "prs_utils/merge_prs_mqc"
+    tag "prs_intervals"
+    tag "bam_haplotypecaller_norm"
+    tag "vcf_prs_score"
+    tag "vcf_ancestry"
 
     setup{
         nfcoreInitialise("${launchDir}/library/")
