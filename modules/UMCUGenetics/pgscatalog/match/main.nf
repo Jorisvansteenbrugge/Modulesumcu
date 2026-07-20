@@ -14,7 +14,7 @@ process PGSCATALOG_MATCH {
     tuple val(meta), path("*_summary.csv"), emit: summary
     tuple val(meta), path("*.scorefile.gz"), emit: scorefile
     tuple val(meta), path("*_log.csv.gz"), emit: log
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('pgscatalog_match'), eval('echo 1.4.4'), emit: versions_pgscatalog_match, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id
@@ -26,8 +26,6 @@ process PGSCATALOG_MATCH {
         --scorefiles ${scoring_file} \\
         --target ${pvar} \\
         --outdir ./
-
-    echo "pgscatalog-match: 1.4.4" > versions.yml
     """
 
     stub:
@@ -36,7 +34,5 @@ process PGSCATALOG_MATCH {
 	touch ${prefix}_summary.csv
 	touch ${prefix}.scorefile.gz
     touch ${prefix}_log.csv.gz
-
-	echo "pgscatalog-match: 1.4.4" > versions.yml
 	"""
 }

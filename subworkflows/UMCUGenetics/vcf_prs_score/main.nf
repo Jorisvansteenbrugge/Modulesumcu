@@ -45,14 +45,7 @@ workflow VCF_PRS_SCORE {
     )
 
 
-    // Collate software versions
-    ch_versions = Channel.empty()
-    ch_versions = ch_versions.mix(PLINK2_VCF.out.versions)
-    ch_versions = ch_versions.mix(PGSCATALOG_MATCH.out.versions)
-    ch_versions = ch_versions.mix(PLINK2_SCORE.out.versions)
-
     emit:
-    ch_versions       = ch_versions
     ch_score_norm     = PRS_UTILS_NORM.out.tsv
     ch_score_variants = PGSCATALOG_MATCH.out.log
     ch_score          = PGSCATALOG_MATCH.out.scorefile

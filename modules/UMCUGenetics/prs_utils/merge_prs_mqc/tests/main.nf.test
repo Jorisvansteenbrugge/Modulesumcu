@@ -20,7 +20,7 @@ nextflow_process {
         }
         then {
             assert process.success
-            assert snapshot(process.out.mqc_tsv)
+            assert snapshot(process.out.mqc_tsv).match()
             with(path(process.out.mqc_tsv[0]).csv(sep: "\t")) {
                 assert rowCount == 2
                 assert columnNames == ["Sample_Model", "Sample", "Model", "Z-score", "QC Status", "QC Comment", "Model Alpha"]

@@ -11,7 +11,7 @@ process PGSCATALOG_COMBINE {
 
     output:
     tuple val(meta), path("*_normalised.txt.gz"), emit: normalised_model
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('pgscatalog_combine'), eval('echo 1.4.4'), emit: versions_pgscatalog_combine, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id
@@ -23,5 +23,11 @@ process PGSCATALOG_COMBINE {
 
 
     echo "pgscatalog-combine: 1.4.4" > versions.yml
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: meta.id
+    """
+    touch ${prefix}_normalised.txt.gz
     """
 }
