@@ -7,7 +7,7 @@ include { PLINK2_INDEPPAIRWISE } from '../../../modules/nf-core/plink2/indeppair
 include { PLINK2_PCA           } from '../../../modules/nf-core/plink2/pca/main'
 include { PLINK2_VCF           } from '../../../modules/UMCUGenetics/plink2/vcf_expanded/main'
 
-workflow ANCESTRY {
+workflow VCF_ANCESTRY {
     take:
     ch_vcf
     ch_ref_vcf

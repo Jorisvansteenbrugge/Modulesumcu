@@ -2,7 +2,7 @@ nextflow_workflow {
     name "Test Ancestry subworkflow"
     script "../main.nf"
     config "./nextflow.config"
-    workflow "ANCESTRY"
+    workflow "VCF_ANCESTRY"
 
     tag "subworkflows"
     tag "ancestry_knn/merge"
