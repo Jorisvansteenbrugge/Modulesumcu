@@ -9,8 +9,7 @@ include { PRS_INTERVALS            } from '../../../subworkflows/UMCUGenetics/pr
 include { BAM_HAPLOTYPECALLER_NORM } from '../../../subworkflows/UMCUGenetics/bam_haplotypecaller_norm/main'
 
 include { SAMPLE_QC                } from '../../../modules/UMCUGenetics/prs_utils/sampleqc/main'
-include { MERGE_PRS_MQC            } from '../../../modules/local/merge_prs_mqc/main'
-include { MULTIQC                  } from '../../../modules/nf-core/multiqc/main'
+include { MERGE_PRS_MQC            } from '../../../modules/UMCUGenetics/prs_utils/merge_prs_mqc/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,7 +54,7 @@ workflow BAM_PRS {
 
 
 
-    PRS_INTERVALS(ch_PRS_model)
+    PRS_INTERVALS(ch_PRS_model, params.assembly_version)
 
     BAM_HAPLOTYPECALLER_NORM(
         ch_samplesheet,
@@ -122,22 +121,8 @@ workflow BAM_PRS {
     )
 
 
-    //
-    // Collate and save software versions
-    //
-    //
-    ch_versions = Channel.empty()
-
-    ch_versions = ch_versions.mix(PRS_INTERVALS.out.ch_versions)
-    ch_versions = ch_versions.mix(VARIANT_CALLING.out.ch_versions)
-    ch_versions = ch_versions.mix(CALC_SCORES.out.ch_versions)
-
-
-
     emit:
-    // multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
     PRS_mqc  = MERGE_PRS_MQC.out.mqc_tsv
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
 
 }
 
