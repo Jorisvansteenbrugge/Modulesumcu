@@ -37,7 +37,7 @@ workflow VCF_ANCESTRY {
 
     BCFTOOLS_MERGE(
         ch_merge_input,
-        ch_genome.join(ch_genome_index)
+        ch_genome.join(ch_genome_index).first()
     )
 
     PLINK2_VCFEXPANDED(
