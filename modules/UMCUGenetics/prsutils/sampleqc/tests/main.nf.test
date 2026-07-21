@@ -1,0 +1,130 @@
+nextflow_process {
+    name "Test Process PRSUTILS_SAMPLEQC"
+    script "../main.nf"
+    process "PRSUTILS_SAMPLEQC"
+
+    tag "modules"
+    tag "modules/local"
+    tag "local"
+    tag "QC"
+    tag "PRSUTILS_SAMPLEQC"
+
+    test ("QC full PASS") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'sampleA__BCAC_313_PRS', sample_id: 'sampleA', model_id: 'BCAC_313_PRS', alpha: 1],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/counts.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/ref_full_pass_knn.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/summary_pass.csv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            def csvFile = path(process.out.score_qc[0][1]).csv(sep: "\t")
+
+            assertAll(
+                { assert process.success },
+                { assert csvFile.columns["QC status"] == ["PASS"] },
+                { assert csvFile.columns["QC Comment"] == [""] }
+            )
+        }
+    }
+
+    test ("QC matchrate FAIL") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'sampleA__BCAC_313_PRS', sample_id: 'sampleA', model_id: 'BCAC_313_PRS', alpha: 1],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/counts.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/ref_full_pass_knn.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/summary_fail.csv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            def csvFile = path(process.out.score_qc[0][1]).csv(sep: "\t")
+
+            assertAll(
+                { assert process.success },
+                { assert csvFile.columns["QC status"] == ["FAIL"] },
+                { assert csvFile.columns["QC Comment"] == ["INSUFFICIENT_VARIANT_COVERAGE"] }
+            )
+        }
+    }
+
+    test ("QC ref conf FAIL") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'sampleA__BCAC_313_PRS', sample_id: 'sampleA', model_id: 'BCAC_313_PRS', alpha: 1],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/counts.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/ref_conf_fail_knn.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/summary_pass.csv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            def csvFile = path(process.out.score_qc[0][1]).csv(sep: "\t")
+
+            assertAll(
+                { assert process.success },
+                { assert csvFile.columns["QC status"] == ["FAIL"] },
+                { assert csvFile.columns["QC Comment"] == ["LOW_REFERENCE_PANEL_CONFIDENCE"] }
+            )
+        }
+    }
+    test ("QC ref panel FAIL") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'sampleA__BCAC_313_PRS', sample_id: 'sampleA', model_id: 'BCAC_313_PRS', alpha: 1],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/counts.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/ref_panel_fail_knn.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/summary_pass.csv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            def csvFile = path(process.out.score_qc[0][1]).csv(sep: "\t")
+
+            assertAll(
+                { assert process.success },
+                { assert csvFile.columns["QC status"] == ["FAIL"] },
+                { assert csvFile.columns["QC Comment"] == ["REFERENCE_PANEL_MISMATCH"] }
+            )
+        }
+    }
+    test ("QC full FAIL") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'sampleA__BCAC_313_PRS', sample_id: 'sampleA', model_id: 'BCAC_313_PRS', alpha: 1],
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/counts.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/ref_full_fail_knn.tsv", checkIfExists: true),
+                    file(params.modules_umcu_testdata_base_path + "prs_utils/sampleqc/summary_fail.csv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            def csvFile = path(process.out.score_qc[0][1]).csv(sep: "\t")
+
+            assertAll(
+                { assert process.success },
+                { assert csvFile.columns["QC status"] == ["FAIL"] },
+                { assert csvFile.columns["QC Comment"] == ["REFERENCE_PANEL_MISMATCH;LOW_REFERENCE_PANEL_CONFIDENCE;INSUFFICIENT_VARIANT_COVERAGE"] }
+            )
+        }
+    }
+
+}

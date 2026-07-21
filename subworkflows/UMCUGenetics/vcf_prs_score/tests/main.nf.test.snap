@@ -1,0 +1,20 @@
+{
+    "Validate scoring workflow": {
+        "content": [
+            [
+                {
+                    "id": "vcf",
+                    "model_id": "model",
+                    "mu": "-0.424",
+                    "sd": "0.611"
+                },
+                "vcf_normalised_counts.tsv:md5,667e9169703e527122a1436f15d4d5ba"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-28T15:09:47.307566"
+    }
+}

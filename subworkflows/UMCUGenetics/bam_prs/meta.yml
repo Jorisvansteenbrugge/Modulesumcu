@@ -1,0 +1,11 @@
+name: "bam_prs"
+description: "Main PRS (meta) workflow"
+keywords:
+  - prs
+components:
+  - vcf_ancestry
+  - vcf_prs_score
+  - prs_intervals
+  - bam_haplotypecaller_norm
+  - prsutils/sampleqc
+  - prsutils/mergeprsmqc

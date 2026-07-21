@@ -1,0 +1,28 @@
+nextflow_process {
+    name "Test Process PGScatalog-combine"
+    script "../main.nf"
+    process "PGSCATALOG_COMBINE"
+
+    tag "modules"
+    tag "modules/UMCUGenetics"
+
+
+    test("Test Correct model formatting "){
+        when{
+            process{
+                """
+                input[0] = [[id: 'model'],
+                    file(params.modules_umcu_testdata_base_path + "pgscatalog/BCAC_313_PRS_GRCh38.txt",
+                    checkifExists: true)]
+                input[1] = channel.value("GRCh38")
+                """
+            }
+
+            then {
+                assertAll(
+                    {assert process.success},
+                )
+            }
+        }
+    }
+}

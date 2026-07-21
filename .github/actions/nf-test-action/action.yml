@@ -36,6 +36,12 @@ runs:
       with:
         python-version: "3.14"
 
+    - name: Install nf-core tools
+      # Required for nft-utils nfcoreInstall() to install nf-core modules
+      # during test setup (provides the `nf-core` CLI on PATH).
+      shell: bash
+      run: python -m pip install --upgrade --force-reinstall git+https://github.com/UMCUGenetics/nf-core-tools.git
+
     - name: Set up nf-test
       uses: nf-core/setup-nf-test@4069fbbaabe94c08faba4ad261bfa88225ba133f # v2
       with:

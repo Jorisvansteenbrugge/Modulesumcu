@@ -1,0 +1,12 @@
+name: "bam_haplotypecaller_norm"
+description: "PRS tailored haplotypecaller + bcftools norm implementation"
+keywords:
+  - prs
+  - gatk
+  - variant_calling
+  - bcftools
+  - bam
+components:
+  - gatk4/haplotypecalleralleles
+  - bcftools/norm:
+      git_remote: https://github.com/nf-core/modules.git

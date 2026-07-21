@@ -1,0 +1,56 @@
+nextflow_workflow {
+    name "Test BAM_PRS subworkflow"
+    script "../main.nf"
+    config "./nextflow.config"
+    workflow "BAM_PRS"
+
+    tag "subworkflows"
+    tag "subworkflows_UMCUGenetics"
+    tag "subworkflows/bam_prs"
+    tag "prsutils/sampleqc"
+    tag "prsutils/mergeprsmqc"
+    tag "prs_intervals"
+    tag "bam_haplotypecaller_norm"
+    tag "vcf_prs_score"
+    tag "vcf_ancestry"
+
+    setup{
+        nfcoreInitialise("${launchDir}/library/")
+        nfcoreInstall(
+            "${launchDir}/library/",
+            [
+                "bcftools/view",
+                "bcftools/merge",
+                "bcftools/sort",
+                "bcftools/norm",
+                "plink2/pca",
+                "plink2/indeppairwise"
+            ]
+        )
+        nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
+    }
+
+    test ("Run bam prs metaworkflow"){
+        options "-stub"
+
+        when{
+            workflow {
+                """
+                input[0] = channel.of([
+                    [id: 'samplesheet'],
+                    file( params.subworkflows_umcu_testdata_base_path + "bam_prs/samplesheet.csv", checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then{
+            assertAll(
+                { assert workflow.success }
+            )
+        }
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/")
+        }
+    }
+
+}

@@ -1,0 +1,21 @@
+{
+    "Test BCAC_313 SNP VCF": {
+        "content": [
+            null,
+            {
+                "versions_gatk_vcf": [
+                    [
+                        "PRSUTILS_GETVCF",
+                        "gatk_vcf",
+                        "1.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-20T16:39:28.065019"
+    }
+}

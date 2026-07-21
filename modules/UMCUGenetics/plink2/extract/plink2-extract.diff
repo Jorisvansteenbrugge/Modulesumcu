@@ -1,0 +1,44 @@
+Changes in component 'nf-core/plink2/extract'
+'modules/nf-core/plink2/extract/environment.yml' is unchanged
+'modules/nf-core/plink2/extract/meta.yml' is unchanged
+Changes in 'plink2/extract/main.nf':
+--- modules/nf-core/plink2/extract/main.nf
++++ modules/nf-core/plink2/extract/main.nf
+@@ -13,7 +13,8 @@
+     output:
+     tuple val(meta), path("*.pgen")    , emit: extract_pgen
+     tuple val(meta), path("*.psam")    , emit: extract_psam
+-    tuple val(meta), path("*.pvar.zst"), emit: extract_pvar
++    tuple val(meta), path("*.pvar.zst"), emit: extract_pvar_zst
++    tuple val(meta), path("*.pvar")    , emit: extract_pvar
+     path "versions.yml"                , emit: versions
+ 
+     when:
+@@ -34,6 +35,22 @@
+         --make-pgen vzs \\
+         --out ${prefix}
+ 
++    plink2 --zst-decompress ${prefix}.pvar.zst > ${prefix}.pvar
++
++    cat <<-END_VERSIONS > versions.yml
++    "${task.process}":
++        plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ 64.*\$//' )
++    END_VERSIONS
++    """
++
++    stub:
++    def prefix = task.ext.prefix ?: "${meta.id}"
++    """
++    touch ${prefix}.pgen
++    touch ${prefix}.psam
++    touch ${prefix}.pvar.zst
++    touch ${prefix}.pvar
++
+     cat <<-END_VERSIONS > versions.yml
+     "${task.process}":
+         plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ 64.*\$//' )
+
+'modules/nf-core/plink2/extract/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/plink2/extract/tests/nextflow.config' is unchanged
+'modules/nf-core/plink2/extract/tests/main.nf.test' is unchanged
+************************************************************
