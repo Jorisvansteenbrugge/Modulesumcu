@@ -15,13 +15,13 @@ process GATK4_HAPLOTYPECALLERALLELES {
 	tuple val(meta5), path(dbsnp)
 	tuple val(meta6), path(dbsnp_tbi)
     tuple val(meta7), path(alleles), path(alleles_tbi)
-    
+
 
 	output:
 	tuple val(meta), path("*.vcf.gz"), emit: vcf
 	tuple val(meta), path("*.tbi"), optional: true, emit: tbi
 	tuple val(meta), path("*.realigned.bam"), optional: true, emit: bam
-	path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('gatk4'), eval("gatk --version | sed -n '/GATK.*v/s/.*v//p'"), topic: versions, emit: versions_gatk4
 
 	when:
 	task.ext.when == null || task.ext.when
@@ -56,11 +56,6 @@ process GATK4_HAPLOTYPECALLERALLELES {
         ${alleles_command} \\
         --tmp-dir . \\
         ${args}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gatk4: \$(echo \$(gatk --version 2>&1) | sed 's/^.*(GATK) v//; s/ .*\$//')
-    END_VERSIONS
     """
 
 	stub:

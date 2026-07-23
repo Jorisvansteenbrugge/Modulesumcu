@@ -15,7 +15,7 @@ process PLINK2_EXTRACT {
     tuple val(meta), path("*.psam")    , emit: extract_psam
     tuple val(meta), path("*.pvar.zst"), emit: extract_pvar_zst
     tuple val(meta), path("*.pvar")    , emit: extract_pvar
-    path "versions.yml"                , emit: versions
+    tuple val("${task.process}"), val('plink2'), eval("plink2 --version 2>&1 | sed 's/^PLINK v//; s/ 64.*\$//'"), topic: versions, emit: versions_plink2
 
     when:
     task.ext.when == null || task.ext.when
@@ -36,11 +36,6 @@ process PLINK2_EXTRACT {
         --out ${prefix}
 
     plink2 --zst-decompress ${prefix}.pvar.zst > ${prefix}.pvar
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ 64.*\$//' )
-    END_VERSIONS
     """
 
     stub:
@@ -50,10 +45,5 @@ process PLINK2_EXTRACT {
     touch ${prefix}.psam
     touch ${prefix}.pvar.zst
     touch ${prefix}.pvar
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ 64.*\$//' )
-    END_VERSIONS
     """
 }
