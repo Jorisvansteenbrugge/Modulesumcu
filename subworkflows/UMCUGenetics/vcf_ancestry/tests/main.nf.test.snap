@@ -1,4 +1,27 @@
 {
+    "Validate ancestry subworkflow with multiple samples": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample_a"
+                    },
+                    "test_sample_a_knn.tsv:md5,b09f40ffcad061623b6279ce4b2b7949"
+                ],
+                [
+                    {
+                        "id": "test_sample_b"
+                    },
+                    "test_sample_b_knn.tsv:md5,b09f40ffcad061623b6279ce4b2b7949"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-07-23T11:39:08.199126"
+    },
     "Validate ancestry subworkflow": {
         "content": [
             [

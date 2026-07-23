@@ -73,4 +73,56 @@ nextflow_workflow {
             nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/")
         }
     }
+
+    test("Validate ancestry subworkflow with multiple samples") {
+        // The single-sample test above passes even when the regions files are collected across
+        // samples instead of joined per sample; only a fan-out catches that.
+        // The same VCF is reused under two metas, so no extra test data is needed.
+
+        when {
+            workflow{
+                """
+                input[0] = Channel.of(
+                    [
+                        [id: 'test_sample_a'],
+                        file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_sample.vcf.gz", checkIfExists: true),
+                        file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_sample.vcf.gz.tbi", checkIfExists: true)
+                    ],
+                    [
+                        [id: 'test_sample_b'],
+                        file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_sample.vcf.gz", checkIfExists: true),
+                        file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_sample.vcf.gz.tbi", checkIfExists: true)
+                    ]
+                )
+                input[1] = Channel.of([
+                    [id: 'test_ref'],
+                    file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_ref.vcf.gz", checkIfExists: true),
+                    file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_ref.vcf.gz.tbi", checkIfExists: true)
+                ]).first()
+                input[2] = Channel.of([
+                    [id: 'ref_meta'],
+                    file(params.subworkflows_umcu_testdata_base_path + "vcf_ancestry/test_ref_meta.psam", checkIfExists: true)
+                ])
+                input[3] = Channel.of([
+                    [id: 'genome'],
+                    file("genome.fasta") //dummy fasta
+                ])
+                input[4] = Channel.of([
+                    [id: 'genome'],
+                    file("genome.fasta.fai") //dummy fasta index
+                ])
+                """
+            }
+        }
+        then{
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.knn_tsv.size() == 2 },
+                { assert snapshot(workflow.out.knn_tsv.sort{ entry -> entry[0].id }).match()}
+            )
+        }
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/")
+        }
+    }
 }
