@@ -9,7 +9,7 @@ process PRSUTILS_NORM {
 
     output:
     tuple val(meta), path ("*_normalised_counts.tsv"), emit: tsv
-    tuple val("${task.process}"), val('prs_utils_norm'), eval('echo 1.0.0'), emit: versions_prs_utils_norm, topic: versions
+    tuple val("${task.process}"), val('prsutils'), eval('echo 1.0.0'), emit: versions_prs_utils_norm, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id

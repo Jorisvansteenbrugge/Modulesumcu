@@ -8,7 +8,7 @@ process PRSUTILS_MERGEPRSMQC {
 
     output:
     path("prs_scores_mqc.tsv"), emit: mqc_tsv
-    tuple val("${task.process}"), val('prs_utils_merge_prs_mqc'), eval('echo 1.0.0'), emit: versions_prs_utils_merge_prs_mqc, topic: versions
+    tuple val("${task.process}"), val('prsutils'), eval('echo 1.0.0'), emit: versions_prs_utils_merge_prs_mqc, topic: versions
 
     script:
     """

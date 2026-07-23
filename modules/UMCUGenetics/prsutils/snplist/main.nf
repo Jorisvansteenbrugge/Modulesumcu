@@ -8,7 +8,7 @@ process PRSUTILS_SNPLIST {
 
     output:
     tuple val(meta), path("*_snplist.list"), emit: list
-    tuple val("${task.process}"), val('SNPlist'), eval('echo 1.0.0'), emit: versions_SNPlist, topic: versions
+    tuple val("${task.process}"), val('prsutils'), eval('echo 1.0.0'), emit: versions_SNPlist, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id

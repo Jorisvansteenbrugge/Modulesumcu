@@ -14,7 +14,7 @@ process PGSCATALOG_MATCH {
     tuple val(meta), path("*_summary.csv"), emit: summary
     tuple val(meta), path("*.scorefile.gz"), emit: scorefile
     tuple val(meta), path("*_log.csv.gz"), emit: log
-    tuple val("${task.process}"), val('pgscatalog_match'), eval('echo 1.4.4'), emit: versions_pgscatalog_match, topic: versions
+    tuple val("${task.process}"), val('pgscatalog'), eval('echo 1.4.4'), emit: versions_pgscatalog_match, topic: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.id

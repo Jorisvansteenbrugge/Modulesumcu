@@ -1,5 +1,5 @@
 include { GATK4_HAPLOTYPECALLERALLELES } from '../../../modules/UMCUGenetics/gatk4/haplotypecalleralleles/main'
-include { BCFTOOLS_NORM         } from '../../../modules/nf-core/bcftools/norm/main'
+include { BCFTOOLS_NORM                } from '../../../modules/nf-core/bcftools/norm/main'
 
 workflow BAM_HAPLOTYPECALLER_NORM {
     take:
